@@ -18,7 +18,14 @@ class WannaCrySMBServer(Thread):
 	self.server = smbserver.SMBSERVER(('0.0.0.0',445), config_parser = smbConfig)
         self.server.processConfigFile()
 
-#	hook functions
+# Unregistering some dangerous and unwanted commands
+        self.server.unregisterSmbCommand(smb.SMB.SMB_COM_CREATE_DIRECTORY)
+        self.server.unregisterSmbCommand(smb.SMB.SMB_COM_DELETE_DIRECTORY)
+        self.server.unregisterSmbCommand(smb.SMB.SMB_COM_RENAME)
+        self.server.unregisterSmbCommand(smb.SMB.SMB_COM_DELETE)
+        self.server.unregisterSmbCommand(smb.SMB.SMB_COM_WRITE)
+        self.server.unregisterSmbCommand(smb.SMB.SMB_COM_WRITE_ANDX)
+# hook functions
 #	 self.origsmbComNtCreateAndX = self.server.hookSmbCommand(smb.SMB.SMB_COM_NT_CREATE_ANDX, self.smbComNtCreateAndX)
 
 	self.__srvsServer = SRVSServer()
